@@ -1,5 +1,6 @@
 provider "aws" {
   region  = "eu-west-1"
+  # The profile picks from "./.aws/credentials"
   profile = "default"
   version = "4.54.0"
 }
@@ -7,8 +8,13 @@ provider "aws" {
 resource "aws_security_group" "allow_tls" {
   name        = "devops-chapter-sg"
   description = "Allow TLS inbound traffic"
+  
   tags = {
     Name = "DevOps Chapter Security"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 
   # HTTPS
